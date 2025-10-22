@@ -17,13 +17,16 @@ export class Name {
   private delimiter: string = DEFAULT_DELIMITER;
   private components: string[] = [];
 
-  /** Expects that all Name components are properly masked */
+  /**
+   * @methodtype initialization-method
+   * Expects that all Name components are properly masked */
   constructor(other: string[], delimiter: string = DEFAULT_DELIMITER) {
     this.components = [...other];
     this.delimiter = delimiter;
   }
 
   /**
+   * @methodtype conversion-method
    * Returns a human-readable representation of the Name instance using user-set control characters
    * Control characters are not escaped (creating a human-readable string)
    * Users can vary the delimiter character to be used
@@ -46,6 +49,7 @@ export class Name {
   }
 
   /**
+   * @methodtype conversion-method
    * Returns a machine-readable representation of Name instance using default control characters
    * Machine-readable means that from a data string, a Name can be parsed back in
    * The control characters in the data string are the default characters
@@ -54,6 +58,7 @@ export class Name {
     return this.components.join(DEFAULT_DELIMITER);
   }
 
+  /** @methodtype get-method */
   public getComponent(i: number): string {
     if (i < 0 || i >= this.components.length) {
       throw new Error("Index out of bounds");
@@ -61,7 +66,9 @@ export class Name {
     return this.components[i];
   }
 
-  /** Expects that new Name component c is properly masked */
+  /**
+   * @methodtype set-method
+   * Expects that new Name component c is properly masked */
   public setComponent(i: number, c: string): void {
     if (i < 0 || i >= this.components.length) {
       throw new Error("Index out of bounds");
@@ -69,12 +76,16 @@ export class Name {
     this.components[i] = c;
   }
 
-  /** Returns number of components in Name instance */
+  /**
+   * @methodtype get-method
+   * Returns number of components in Name instance */
   public getNoComponents(): number {
     return this.components.length;
   }
 
-  /** Expects that new Name component c is properly masked */
+  /**
+   * @methodtype command-method
+   * Expects that new Name component c is properly masked */
   public insert(i: number, c: string): void {
     if (i < 0 || i > this.components.length) {
       throw new Error("Index out of bounds");
@@ -82,11 +93,14 @@ export class Name {
     this.components.splice(i, 0, c);
   }
 
-  /** Expects that new Name component c is properly masked */
+  /**
+   * @methodtype command-method
+   * Expects that new Name component c is properly masked */
   public append(c: string): void {
     this.components.push(c);
   }
 
+  /** @methodtype command-method */
   public remove(i: number): void {
     if (i < 0 || i >= this.components.length) {
       throw new Error("Index out of bounds");
