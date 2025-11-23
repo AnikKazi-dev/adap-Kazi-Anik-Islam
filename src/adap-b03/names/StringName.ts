@@ -1,71 +1,75 @@
-import { DEFAULT_DELIMITER, ESCAPE_CHARACTER } from "../common/Printable";
 import { Name } from "./Name";
 import { AbstractName } from "./AbstractName";
+import { StringArrayName } from "./StringArrayName";
+import { DEFAULT_DELIMITER, ESCAPE_CHARACTER } from "../common/Printable";
 
 export class StringName extends AbstractName {
+  private stringArrayName: StringArrayName;
+  private delimiter: string;
 
-    protected name: string = "";
-    protected noComponents: number = 0;
+  constructor(source: string, delimiter: string = DEFAULT_DELIMITER) {
+    super();
+    this.delimiter = delimiter;
+    this.stringArrayName = new StringArrayName(
+      this.parse(source, delimiter),
+      delimiter
+    );
+  }
 
-    constructor(source: string, delimiter?: string) {
-        super();
-        throw new Error("needs implementation or deletion");
+  private parse(s: string, delimiter: string): string[] {
+    const components: string[] = [];
+    let current = "";
+    let isEscaped = false;
+    for (const char of s) {
+      if (isEscaped) {
+        current += char;
+        isEscaped = false;
+      } else if (char === ESCAPE_CHARACTER) {
+        isEscaped = true;
+      } else if (char === delimiter) {
+        components.push(current);
+        current = "";
+      } else {
+        current += char;
+      }
     }
+    components.push(current);
+    return components;
+  }
 
-    public clone(): Name {
-        throw new Error("needs implementation or deletion");
-    }
+  public clone(): Name {
+    return new StringName(this.asString(this.delimiter), this.delimiter);
+  }
 
-    public asString(delimiter: string = this.delimiter): string {
-        throw new Error("needs implementation or deletion");
-    }
+  public getNoComponents(): number {
+    return this.stringArrayName.getNoComponents();
+  }
 
-    public asDataString(): string {
-        throw new Error("needs implementation or deletion");
-    }
+  public getComponent(i: number): string {
+    return this.stringArrayName.getComponent(i);
+  }
 
-    public isEqual(other: Name): boolean {
-        throw new Error("needs implementation or deletion");
-    }
+  public setComponent(i: number, c: string) {
+    this.stringArrayName.setComponent(i, c);
+  }
 
-    public getHashCode(): number {
-        throw new Error("needs implementation or deletion");
-    }
+  public insert(i: number, c: string) {
+    this.stringArrayName.insert(i, c);
+  }
 
-    public isEmpty(): boolean {
-        throw new Error("needs implementation or deletion");
-    }
+  public append(c: string) {
+    this.stringArrayName.append(c);
+  }
 
-    public getDelimiterCharacter(): string {
-        throw new Error("needs implementation or deletion");
-    }
+  public remove(i: number) {
+    this.stringArrayName.remove(i);
+  }
 
-    public getNoComponents(): number {
-        throw new Error("needs implementation or deletion");
-    }
+  public getDelimiterCharacter(): string {
+    return this.delimiter;
+  }
 
-    public getComponent(i: number): string {
-        throw new Error("needs implementation or deletion");
-    }
-
-    public setComponent(i: number, c: string) {
-        throw new Error("needs implementation or deletion");
-    }
-
-    public insert(i: number, c: string) {
-        throw new Error("needs implementation or deletion");
-    }
-
-    public append(c: string) {
-        throw new Error("needs implementation or deletion");
-    }
-
-    public remove(i: number) {
-        throw new Error("needs implementation or deletion");
-    }
-
-    public concat(other: Name): void {
-        throw new Error("needs implementation or deletion");
-    }
-
+  public asString(delimiter: string = this.delimiter): string {
+    return this.stringArrayName.asString(delimiter);
+  }
 }
