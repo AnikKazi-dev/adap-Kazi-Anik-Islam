@@ -1,5 +1,7 @@
+import { Exception } from "../common/Exception";
 import { IllegalArgumentException } from "../common/IllegalArgumentException";
 import { InvalidStateException } from "../common/InvalidStateException";
+import { ServiceFailureException } from "../common/ServiceFailureException";
 
 import { Name } from "../names/Name";
 import { Directory } from "./Directory";
@@ -36,6 +38,7 @@ export class Node {
   }
 
   protected doGetBaseName(): string {
+    InvalidStateException.assert(this.baseName !== "", "Base name must not be empty");
     return this.baseName;
   }
 
@@ -62,7 +65,7 @@ export class Node {
         result.add(this);
       }
     } catch (error) {
-      // Ignore error and continue
+      throw new ServiceFailureException("Failed to find nodes", error as Exception);
     }
     return result;
   }

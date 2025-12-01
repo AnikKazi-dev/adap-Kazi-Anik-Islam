@@ -11,7 +11,7 @@ export class BuggyFile extends File {
    * @returns base name, here always ""
    */
   protected doGetBaseName(): string {
-    // this.baseName = ""; // Fault injection removed/commented out to make test work
+    this.baseName = ""; // Fault injection for homework
     return super.doGetBaseName();
   }
 }
