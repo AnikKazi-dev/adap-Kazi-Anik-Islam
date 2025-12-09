@@ -38,7 +38,10 @@ export class Node {
   }
 
   protected doGetBaseName(): string {
-    InvalidStateException.assert(this.baseName !== "", "Base name must not be empty");
+    InvalidStateException.assert(
+      this.baseName !== "",
+      "Base name must not be empty"
+    );
     return this.baseName;
   }
 
@@ -65,7 +68,10 @@ export class Node {
         result.add(this);
       }
     } catch (error) {
-      throw new ServiceFailureException("Failed to find nodes", error as Exception);
+      throw new ServiceFailureException(
+        "Failed to find nodes",
+        error as Exception
+      );
     }
     return result;
   }
